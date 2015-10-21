@@ -1,6 +1,10 @@
 package com.xu.stream;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 /**
@@ -9,7 +13,7 @@ import java.util.stream.Stream;
 public class StreamMethod {
 
     public static void main(String[] args){
-        stepOne();
+        getSet();
     }
 
     public static void stepOne(){
@@ -32,5 +36,25 @@ public class StreamMethod {
         }
 
         return collection;
+    }
+
+    public static void getSet(){
+        long start = Instant.now().toEpochMilli();
+        long start_o = System.currentTimeMillis();
+
+        long[] a = new long[20000];
+
+        Arrays.parallelSetAll(a, i -> ThreadLocalRandom.current().nextInt(10000000));
+
+        Arrays.stream(a).limit(10).forEach(i -> System.out.print(i + " "));
+        System.out.println();
+
+        Arrays.parallelSort(a);
+
+        Arrays.stream(a).limit(10).forEach(i -> System.out.print(i + " "));
+        System.out.println();
+
+        System.out.println(Instant.now().toEpochMilli() - start);
+        System.out.println(System.currentTimeMillis() - start_o);
     }
 }
