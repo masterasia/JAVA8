@@ -42,13 +42,17 @@ public class StreamMethod {
         long[] a = new long[20000];
 
         Arrays.parallelSetAll(a, i -> ThreadLocalRandom.current().nextInt(10000000));
-
-        Arrays.stream(a).limit(10).forEach(i -> System.out.print(i + " "));
+        System.out.println(a.length);
+        Arrays.stream(a).limit(10).forEach(i -> System.out.print(i + " one "));
         System.out.println();
 
         Arrays.parallelSort(a);
 
-        Arrays.stream(a).limit(10).forEach(i -> System.out.print(i + " "));
+        Arrays.stream(a).filter(i -> i%2 == 0).limit(10).forEach(i -> System.out.print(i + " two "));
+        System.out.println();
+        Arrays.stream(a).limit(10).filter(i -> i%2 == 0).forEach(i -> System.out.print(i + " two "));
+        System.out.println();
+        Arrays.stream(a).limit(10).forEach(i -> System.out.print(i + " two "));
         System.out.println();
 
         System.out.println(Instant.now().toEpochMilli() - start);
